@@ -16,6 +16,13 @@ Mobile-first Instagram Stories AI assistant. Generates complete story scripts us
 - `app/types/...`: TS Definitions for DB and AI.
 - `supabase/migrations/...`: SQL Migrations.
 
+## ✨ Highlights
+- **Strategic Insights**: The AI acts as a digital marketing consultant, showing the strategy behind each script.
+- **Visual Studio**: Real-time editor to customize background fixed colors and gradients.
+- **Full History**: Complete management of scripts with individual story editing, deletion, and sharing.
+- **Dynamic Adaptations**: Logic to adapt existing scripts for different platforms and goals.
+- **Omni-Channel Navigation**: Five main entry points in the mobile-first bottom bar.
+
 ## ⚙️ Getting Started
 
 1. Clone or clone the repository locally.
