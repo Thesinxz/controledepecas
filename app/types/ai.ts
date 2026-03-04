@@ -14,8 +14,11 @@ export interface BriefingOutput {
     tone: string
     product: string
     story_count: number
-    key_messages: string[]
-    visual_style: string
+    key_messages?: string[]
+    visual_style?: string
+    editorial_line?: string
+    strategy_summary?: string
+    [key: string]: any
 }
 
 export interface StoryElement {

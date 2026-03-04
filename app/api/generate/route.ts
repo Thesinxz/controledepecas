@@ -68,18 +68,29 @@ export async function POST(req: Request) {
                 if (scriptError || !script) throw new Error('Failed to save script')
 
                 // Create Stories DB Entries
-                if (results.final_script?.stories) {
-                    const storiesToInsert = results.final_script.stories.map((s: any) => ({
+                const storiesArray = results.final_script?.stories ||
+                    results.refined_script?.stories ||
+                    results.raw_script?.stories || []
+
+                if (storiesArray.length > 0) {
+                    const storiesToInsert = storiesArray.map((s: any, idx: number) => ({
                         script_id: script.id,
-                        position: s.position,
-                        type: s.type,
-                        main_text: s.main_text,
-                        narration: s.narration,
-                        visual_suggestion: s.visual_suggestion,
-                        duration_seconds: s.duration_seconds,
+                        position: s.position || idx + 1,
+                        type: s.type || 'content',
+                        main_text: s.main_text || '',
+                        narration: s.narration || '',
+                        visual_suggestion: s.visual_suggestion || '',
+                        sticker_suggestion: s.sticker_suggestion || null,
+                        duration_seconds: s.duration_seconds || 7,
                         background_color: s.background_color || '#1a1a2e'
                     }))
-                    await supabase.from('stories').insert(storiesToInsert)
+
+                    const { error: storiesError } = await supabase.from('stories').insert(storiesToInsert)
+                    if (storiesError) {
+                        console.error('Stories insert error:', storiesError)
+                    }
+                } else {
+                    console.warn('No stories found in AI response to save')
                 }
 
                 // Increment Usage
@@ -89,7 +100,11 @@ export async function POST(req: Request) {
                     scripts_used_this_month: profile.scripts_used_this_month + 1
                 }).eq('id', user.id)
 
-                sendEvent('complete', { script_id: script.id, data: results.final_script })
+                sendEvent('complete', {
+                    script_id: script.id,
+                    data: results.final_script,
+                    briefing: results.briefing
+                })
                 controllerVar?.close()
             } catch (e: any) {
                 console.error(e)

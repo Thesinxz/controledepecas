@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { CheckCircle2, Loader2, Sparkles, AlertCircle, Copy, Share, ChevronLeft } from 'lucide-react'
+import { CheckCircle2, Loader2, Sparkles, AlertCircle, Copy, Share, ChevronLeft, Wand2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { StoryElement } from '@/app/types/ai'
 import Link from 'next/link'
@@ -15,6 +15,7 @@ export default function ResultPage() {
     const [error, setError] = useState<string | null>(null)
     const [scriptId, setScriptId] = useState<string | null>(null)
     const [stories, setStories] = useState<StoryElement[]>([])
+    const [briefing, setBriefing] = useState<any>(null)
     const [done, setDone] = useState(false)
 
     useEffect(() => {
@@ -63,6 +64,7 @@ export default function ResultPage() {
                             } else if (currentEvent === 'complete') {
                                 setScriptId(data.script_id)
                                 setStories(data.data?.stories || [])
+                                setBriefing(data.briefing)
                                 setDone(true)
                                 setStatus('Roteiro pronto!')
                                 setStep(6)
@@ -149,6 +151,26 @@ export default function ResultPage() {
                         )}
                     </div>
 
+                    {briefing && (
+                        <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/10 rounded-3xl p-6 flex flex-col gap-4 animate-in slide-in-from-top-4 duration-500">
+                            <div className="flex items-center gap-2">
+                                <Wand2 className="w-5 h-5 text-pink-400" />
+                                <h2 className="text-lg font-bold">Insights Estratégicos</h2>
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {Object.entries(briefing).map(([key, value]: [string, any]) => {
+                                    if (typeof value !== 'string') return null
+                                    return (
+                                        <div key={key} className="flex flex-col gap-1">
+                                            <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{key.replace('_', ' ')}</span>
+                                            <p className="text-sm text-white/80 leading-relaxed">{value}</p>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    )}
+
                     <div className="space-y-4">
                         {stories.map((story, i) => (
                             <div key={i} className="relative bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden flex flex-col">
@@ -198,13 +220,22 @@ export default function ResultPage() {
                         ))}
                     </div>
 
-                    <Button
-                        className="w-full h-14 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-base rounded-2xl shadow-[0_0_30px_-5px_#ec4899] border-0 mt-4"
-                        onClick={() => router.push('/dashboard')}
-                    >
-                        <CheckCircle2 className="w-5 h-5 mr-2" />
-                        Salvar e Voltar
-                    </Button>
+                    <div className="flex flex-col gap-3 mt-4">
+                        <Button
+                            className="w-full h-14 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-base rounded-2xl shadow-[0_0_30px_-5px_#ec4899] border-0"
+                            onClick={() => router.push(`/scripts/${scriptId}`)}
+                        >
+                            <CheckCircle2 className="w-5 h-5 mr-2" />
+                            Ver Roteiro Salvo
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className="w-full h-12 bg-white/5 hover:bg-white/10 text-white rounded-2xl"
+                            onClick={() => router.push('/create')}
+                        >
+                            Criar Outro Roteiro
+                        </Button>
+                    </div>
                 </div>
             )
             }

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PlusCircle, Sparkles, Zap, Video, History, BarChart3 } from 'lucide-react'
+import { PlusCircle, Sparkles, Zap, Video, History, BarChart3, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/app/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -61,18 +61,27 @@ export default async function DashboardPage() {
                     </div>
                 </Link>
 
-                <Link href="/analytics" className="col-span-2">
-                    <div className="bg-white/5 border border-white/5 p-4 rounded-3xl flex items-center justify-between hover:bg-white/10 transition-colors">
-                        <div className="flex items-center gap-3">
-                            <div className="p-3 bg-blue-500/20 rounded-xl">
-                                <BarChart3 className="w-6 h-6 text-blue-400" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="font-bold">Analytics</span>
-                                <span className="text-xs text-white/50">Veja seu desempenho</span>
-                            </div>
+                <Link href="/analytics" className="col-span-1">
+                    <div className="bg-white/5 border border-white/5 p-4 rounded-3xl flex flex-col gap-3 hover:bg-white/10 transition-colors h-full">
+                        <div className="p-3 bg-blue-500/20 rounded-xl w-fit">
+                            <BarChart3 className="w-6 h-6 text-blue-400" />
                         </div>
-                        <span className="text-xs font-medium text-pink-400">Ver Dashboard</span>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-sm">Analytics</span>
+                            <span className="text-[10px] text-white/50">Seu desempenho</span>
+                        </div>
+                    </div>
+                </Link>
+
+                <Link href="/calendar" className="col-span-1">
+                    <div className="bg-white/5 border border-white/5 p-4 rounded-3xl flex flex-col gap-3 hover:bg-white/10 transition-colors h-full">
+                        <div className="p-3 bg-pink-500/20 rounded-xl w-fit">
+                            <Calendar className="w-6 h-6 text-pink-400" />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-sm">Agenda</span>
+                            <span className="text-[10px] text-white/50">Posts planejados</span>
+                        </div>
                     </div>
                 </Link>
             </div>

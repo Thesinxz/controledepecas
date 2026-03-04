@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, PlusCircle, LayoutTemplate, Settings } from 'lucide-react'
+import { Home, PlusCircle, History, Calendar, LayoutTemplate } from 'lucide-react'
 
 export default function BottomNav() {
     const pathname = usePathname()
@@ -15,14 +15,15 @@ export default function BottomNav() {
 
     const navItems = [
         { name: 'Início', href: '/dashboard', icon: Home },
-        { name: 'Modelos', href: '/templates', icon: LayoutTemplate },
-        { name: 'Criar', href: '/create', icon: PlusCircle, highlight: true },
-        { name: 'Ajustes', href: '/settings', icon: Settings },
+        { name: 'Histórico', href: '/scripts', icon: History },
+        { name: 'Criar', icon: PlusCircle, href: '/create', highlight: true },
+        { name: 'Modelos', icon: LayoutTemplate, href: '/templates' },
+        { name: 'Agenda', icon: Calendar, href: '/calendar' },
     ]
 
     return (
         <nav className="fixed bottom-0 left-0 right-0 h-20 bg-[#0c0c16]/90 backdrop-blur-lg border-t border-white/5 z-50 pb-[env(safe-area-inset-bottom)]">
-            <div className="w-full max-w-md mx-auto h-full px-6 flex items-center justify-between">
+            <div className="w-full max-w-md mx-auto h-full px-2 flex items-center justify-around">
                 {navItems.map((item) => {
                     const isActive = pathname.startsWith(item.href) && item.href !== '/'
                     const Icon = item.icon
@@ -39,8 +40,8 @@ export default function BottomNav() {
                     }
 
                     return (
-                        <Link key={item.name} href={item.href} className="flex flex-col items-center gap-1.5 min-w-[64px]">
-                            <Icon className={`w-6 h-6 transition-colors ${isActive ? 'text-purple-400' : 'text-white/40'}`} />
+                        <Link key={item.name} href={item.href} className="flex flex-col items-center gap-1.5 min-w-[60px]">
+                            <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-purple-400' : 'text-white/40'}`} />
                             <span className={`text-[10px] font-medium transition-colors ${isActive ? 'text-purple-400' : 'text-white/40'}`}>
                                 {item.name}
                             </span>
