@@ -219,14 +219,14 @@
         <!-- Details List -->
         <div class="space-y-4 p-1">
           <div class="flex items-center gap-4 text-sm group/item">
-            <div :class="isFemale(loan.employeeName) ? 'bg-pink-600/10 text-pink-500 hover:bg-pink-600' : 'bg-blue-600/10 text-blue-500 hover:bg-blue-600'" 
-              class="w-10 h-10 rounded-xl flex items-center justify-center transition-all shrink-0 border border-white/5">
-              <LucideUserCheck v-if="!isFemale(loan.employeeName)" class="w-5 h-5" />
-              <LucideUserCircle v-else class="w-5 h-5" />
+            <div :class="isFemale(loan.employeeName) ? 'bg-pink-600/10 text-pink-400 ring-pink-500/20' : 'bg-cyan-600/10 text-cyan-400 ring-cyan-500/20'" 
+              class="w-12 h-12 rounded-[1rem] flex items-center justify-center transition-all shrink-0 border border-white/5 ring-1 shadow-lg backdrop-blur-md">
+              <LucideUser v-if="!isFemale(loan.employeeName)" class="w-6 h-6 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
+              <LucideUserRound v-else class="w-6 h-6 drop-shadow-[0_0_8px_rgba(244,114,182,0.5)]" />
             </div>
             <div class="flex flex-col">
-              <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest leading-none mb-1">Responsável</span>
-              <span class="font-bold text-gray-200 text-base">{{ loan.employeeName }}</span>
+              <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest leading-none mb-1">Nexus Responsável</span>
+              <span class="font-bold text-gray-100 text-lg leading-tight">{{ loan.employeeName }}</span>
             </div>
           </div>
 
@@ -617,6 +617,10 @@ watch(() => form.value.toStore, (newDest) => {
 const isFemale = (name) => {
   if (!name) return false
   const n = name.toLowerCase().trim()
+  // Explicit checks for known technicians
+  if (n.includes('andressa')) return true
+  if (n.includes('odilson') || n.includes('marlon') || n.includes('erick')) return false
+  
   // Heuristic for Brazilian/Common names (ends with a, ia, na, e, i)
   const endings = ['a', 'ia', 'na', 'ra', 'ta', 'ca', 'da', 'sa', 'va', 'e', 'i']
   return endings.some(e => n.endsWith(e))
