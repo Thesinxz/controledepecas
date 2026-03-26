@@ -181,12 +181,31 @@
           </button>
         </div>
 
-        <div class="flex items-center gap-5 mb-8">
-           <div class="w-14 h-14 rounded-2xl bg-gray-950 flex items-center justify-center overflow-hidden border border-gray-800 shadow-inner group-hover:border-blue-500/30 transition-colors">
-             <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-full h-full object-cover" />
-             <LucideCpu v-else class="text-gray-700 w-6 h-6" />
+        <div class="flex items-center gap-6 mb-8">
+           <!-- Quem Pegou (Destino) -->
+           <div class="flex flex-col items-center gap-2">
+             <div class="w-16 h-16 rounded-[1.25rem] bg-gray-950 flex items-center justify-center overflow-hidden border border-blue-500/30 shadow-inner group-hover:border-blue-500 transition-all scale-110">
+               <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-full h-full object-cover" />
+               <LucideCpu v-else class="text-blue-500 w-7 h-7" />
+             </div>
+             <span class="text-[8px] font-black text-blue-500 uppercase tracking-widest">Destino</span>
            </div>
-           <div class="flex-1">
+
+           <div class="flex flex-col items-center justify-center text-gray-700 animate-pulse">
+             <LucideArrowLeft class="w-5 h-5 mb-1" />
+             <div class="h-0.5 w-6 bg-current rounded-full"></div>
+           </div>
+
+           <!-- De Onde Pegou (Origem) -->
+           <div class="flex flex-col items-center gap-2">
+             <div class="w-14 h-14 rounded-2xl bg-gray-950 flex items-center justify-center overflow-hidden border border-gray-800 shadow-inner group-hover:border-gray-700 transition-colors">
+               <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-full h-full object-cover" />
+               <LucideBuilding2 v-else class="text-gray-700 w-6 h-6" />
+             </div>
+             <span class="text-[8px] font-black text-gray-700 uppercase tracking-widest">Origem</span>
+           </div>
+
+           <div class="flex-1 ml-4">
               <h3 class="text-xl font-black tracking-tight text-white group-hover:text-blue-400 transition-colors">{{ loan.partName }}</h3>
               <div class="flex items-center gap-3 mt-2">
                  <span :class="getStatusClass(loan)" class="text-[9px] font-black uppercase px-2.5 py-1 rounded-lg tracking-[0.2em] border border-current shadow-sm shadow-black/50 bg-black/20">
