@@ -150,73 +150,92 @@
       </div>
 
       <div v-for="loan in filteredLoans" :key="loan.id" 
-        class="card group hover:scale-[1.01] transition-all relative overflow-hidden bg-gray-900/40 border-gray-800" 
-        :class="{ 'opacity-50 grayscale': loan.returnDate }">
+        class="card group hover:shadow-xl hover:border-blue-500/20 transition-all relative overflow-hidden bg-gray-950 border-gray-800" 
+        :class="{ 'opacity-60 grayscale scale-[0.98]': loan.returnDate }">
         
-        <!-- Action Buttons -->
+        <!-- Action Buttons Overlay -->
         <div class="absolute top-4 right-4 flex gap-2 invisible group-hover:visible animate-in fade-in duration-200">
-          <button @click="editLoan(loan)" class="p-2.5 bg-gray-800 hover:bg-blue-600 text-gray-400 hover:text-white rounded-xl transition-all shadow-xl">
+          <button @click="editLoan(loan)" class="p-2 bg-gray-800 hover:bg-blue-600 text-gray-400 hover:text-white rounded-lg transition-all">
             <LucideEdit2 class="w-4 h-4" />
           </button>
-          <button @click="deleteLoan(loan.id)" class="p-2.5 bg-gray-800 hover:bg-red-600 text-gray-400 hover:text-white rounded-xl transition-all shadow-xl">
+          <button @click="deleteLoan(loan.id)" class="p-2 bg-gray-800 hover:bg-red-600 text-gray-400 hover:text-white rounded-lg transition-all">
             <LucideTrash2 class="w-4 h-4" />
           </button>
         </div>
 
-        <div class="flex items-start gap-4 mb-4">
-           <!-- Brand/Store Visual -->
-           <div class="w-14 h-14 rounded-2xl bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-700 shrink-0 shadow-inner">
+        <div class="flex items-center gap-4 mb-6">
+           <div class="w-12 h-12 rounded-xl bg-gray-900 flex items-center justify-center overflow-hidden border border-gray-800 shrink-0">
              <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-full h-full object-cover" />
-             <LucideBuilding2 v-else class="text-gray-600 w-6 h-6" />
+             <LucidePackage v-else class="text-gray-700 w-5 h-5" />
            </div>
-           
-           <div class="flex-1 pr-12">
-              <div class="flex items-center gap-2 mb-1">
-                <span :class="getStatusClass(loan)" class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full tracking-tighter border border-current opacity-80">
-                  {{ getStatusLabel(loan) }}
-                </span>
-                <span v-if="loan.brand || loan.model" class="text-[10px] font-black uppercase text-gray-500 tracking-tighter">
-                  {{ [loan.brand, loan.model].filter(Boolean).join(' / ') }}
-                </span>
+           <div class="flex-1">
+              <h3 class="text-xl font-bold tracking-tight text-white">{{ loan.partName }}</h3>
+              <div class="flex items-center gap-2 mt-1">
+                 <span :class="getStatusClass(loan)" class="text-[10px] font-black uppercase px-2 py-0.5 rounded-md tracking-widest border border-current opacity-90">
+                    {{ getStatusLabel(loan) }}
+                 </span>
               </div>
-              <h3 class="text-xl font-black tracking-tight mb-0.5">{{ loan.partName }}</h3>
            </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 text-xs font-bold text-gray-300 border-t border-gray-800/50 pt-4 mt-2">
-          <div class="flex items-center gap-3">
-            <div class="p-1.5 bg-gray-800 rounded-lg text-gray-500">
-              <LucideUser class="w-3.5 h-3.5" />
+        <!-- Details List -->
+        <div class="space-y-3.5 p-1">
+          <div class="flex items-center gap-3 text-sm">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
+              <LucideUser class="w-4 h-4" />
             </div>
-            <span>{{ loan.employeeName }}</span>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-gray-500 uppercase font-bold tracking-widest leading-none mb-0.5">Retirado por</span>
+              <span class="font-bold text-gray-200">{{ loan.employeeName }}</span>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <div class="p-1.5 bg-gray-800 rounded-lg text-gray-500">
-              <LucideCalendar class="w-3.5 h-3.5" />
+
+          <div class="flex items-center gap-3 text-sm">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
+              <LucideStore class="w-4 h-4" />
             </div>
-            <span>{{ formatDate(loan.loanDate) }}</span>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-gray-500 uppercase font-bold tracking-widest leading-none mb-0.5">Fluxo entre lojas</span>
+              <div class="flex items-center gap-2 font-bold text-gray-200">
+                <span class="text-gray-400">{{ loan.fromStore }}</span>
+                <LucideArrowRight class="w-3 h-3 text-gray-600" />
+                <span>{{ loan.toStore }}</span>
+              </div>
+            </div>
           </div>
-          <div class="flex items-center gap-3 col-span-2">
-            <div class="p-1.5 bg-gray-800 rounded-lg text-gray-500">
-              <LucideStore class="w-3.5 h-3.5" />
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex items-center gap-3 text-sm bg-gray-900/40 p-2.5 rounded-2xl border border-gray-800/50">
+              <div class="w-7 h-7 rounded-lg bg-gray-800 flex items-center justify-center text-gray-400 shrink-0">
+                <LucideHistory class="w-3.5 h-3.5" />
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[9px] text-gray-500 uppercase font-bold leading-none mb-1">Data Saída</span>
+                <span class="text-xs font-bold text-gray-300">{{ formatDate(loan.loanDate) }}</span>
+              </div>
             </div>
-            <div class="flex items-center gap-2 truncate">
-              <span class="text-gray-400">{{ loan.fromStore }}</span>
-              <LucideArrowRight class="w-3 h-3 text-gray-700" />
-              <span class="text-white">{{ loan.toStore }}</span>
+
+            <div class="flex items-center gap-3 text-sm bg-gray-900/40 p-2.5 rounded-2xl border" :class="getStatusLabel(loan) === 'Atrasado' ? 'border-red-500/30' : 'border-gray-800/50'">
+              <div class="w-7 h-7 rounded-lg bg-gray-800 flex items-center justify-center shrink-0" :class="getStatusLabel(loan) === 'Atrasado' ? 'text-red-500' : 'text-emerald-500'">
+                <LucideCalendar class="w-3.5 h-3.5" />
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[9px] text-gray-500 uppercase font-bold leading-none mb-1">Previsão</span>
+                <span class="text-xs font-bold" :class="getStatusLabel(loan) === 'Atrasado' ? 'text-red-400 animate-pulse' : 'text-gray-300'">{{ formatDate(loan.expectedReturn) }}</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div v-if="!loan.returnDate" class="mt-5">
-          <button @click="markAsReturned(loan.id)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-900/20 active:scale-[0.98]">
+        <div v-if="!loan.returnDate" class="mt-8">
+          <button @click="markAsReturned(loan.id)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]">
             <LucideCheckCircle class="w-5 h-5" />
-            CONCLUIR DEVOLUÇÃO
+            CONFIRMAR DEVOLUÇÃO
           </button>
         </div>
-        <div v-else class="mt-5 py-3 border border-emerald-500/30 bg-emerald-500/5 rounded-2xl text-center text-[10px] text-emerald-500 font-black uppercase tracking-widest flex items-center justify-center gap-2">
+        <div v-else class="mt-8 py-3.5 bg-gray-900 rounded-2xl border border-emerald-500/20 text-center text-[10px] text-emerald-500 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
           <LucideCheck class="w-4 h-4" />
-          Devolvido com sucesso em {{ formatDate(loan.returnDate) }}
+          Devolvido em {{ formatDate(loan.returnDate) }}
         </div>
       </div>
     </section>
@@ -317,7 +336,7 @@ import {
   LucideSearch, LucideUser, LucideCalendar, LucideStore, 
   LucideArrowRight, LucideCheckCircle, LucideLoader2, LucideCheck,
   LucideEdit2, LucideTrash2, LucideSettings, LucideImage, LucideBuilding2,
-  LucideClock, LucideAlertCircle
+  LucideClock, LucideAlertCircle, LucideHistory
 } from 'lucide-vue-next'
 import { format, isAfter, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'

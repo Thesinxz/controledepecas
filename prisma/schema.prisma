@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -13,8 +14,8 @@ datasource db {
 model Loan {
   id              Int      @id @default(autoincrement())
   partName        String
-  model           String
-  brand           String?  // New field: Marca
+  model           String?
+  brand           String?
   fromStore       String
   toStore         String
   employeeName    String
@@ -26,11 +27,11 @@ model Loan {
 model Employee {
   id      Int    @id @default(autoincrement())
   name    String @unique
-  storeId Int?   // Optional store linkage
+  storeId Int?
 }
 
 model Store {
   id    Int     @id @default(autoincrement())
   name  String  @unique
-  logo  String? // Base64 or Image path
+  logo  String?
 }

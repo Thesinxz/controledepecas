@@ -1,14 +1,22 @@
+import { createClient } from '@libsql/client'
+import { PrismaLibSQL } from '@prisma/adapter-libsql'
 import { PrismaClient } from '@prisma/client'
 
-let prisma: PrismaClient
+const url = process.env.TURSO_DATABASE_URL
+const authToken = process.env.TURSO_AUTH_TOKEN
 
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient()
+let prismaInstance: PrismaClient
+
+if (url) {
+  const libsql = createClient({
+    url: url,
+    authToken: authToken,
+  })
+  const adapter = new PrismaLibSQL(libsql)
+  prismaInstance = new PrismaClient({ adapter })
 } else {
-  if (!(global as any).prisma) {
-    (global as any).prisma = new PrismaClient()
-  }
-  prisma = (global as any).prisma
+  // Local development fallback
+  prismaInstance = new PrismaClient()
 }
 
-export { prisma }
+export const prisma = prismaInstance
