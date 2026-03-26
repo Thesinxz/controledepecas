@@ -15,9 +15,9 @@ export default defineNuxtConfig({
   },
   pwa: {
     manifest: {
-      name: 'Controle de Peças',
-      short_name: 'Peças',
-      description: 'Controle de empréstimo de peças entre assistências',
+      name: 'Nexus Parts',
+      short_name: 'Nexus',
+      description: 'Inteligência para Movimentação de Peças',
       theme_color: '#111827',
       background_color: '#111827',
       display: 'standalone',
@@ -54,7 +54,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Controle de Peças',
+      title: 'Nexus Parts - Core',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' },
         { name: 'theme-color', content: '#111827' }

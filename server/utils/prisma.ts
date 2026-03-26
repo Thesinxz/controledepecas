@@ -1,9 +1,10 @@
 import { createClient } from '@libsql/client'
-import * as adapterPkg from '@prisma/adapter-libsql'
-const { PrismaLibSQL } = adapterPkg
+import pkg from '@prisma/adapter-libsql'
 import { PrismaClient } from '@prisma/client'
 
-// Use a global variable to prevent multiple instances
+// Robust CJS/ESM interop for PrismaLibSQL
+const PrismaLibSQL = (pkg as any).PrismaLibSQL || (pkg as any).default?.PrismaLibSQL
+
 declare global {
   var prisma: PrismaClient | undefined
 }
@@ -15,9 +16,14 @@ let prisma: PrismaClient
 
 if (!globalThis.prisma) {
   if (url) {
-    // Normalization for serverless environments (prefer https for fetch compatibility)
     const normalizedUrl = url.replace('libsql://', 'https://')
-    console.log(`[Prisma] Initializing with Turso: ${normalizedUrl}`)
+    console.log(`[Nexus] Initializing Cloud DB: ${normalizedUrl}`)
+    
+    // Safety check for the class
+    if (!PrismaLibSQL) {
+      throw new Error('[Nexus] Failed to load PrismaLibSQL adapter. Check deployment chunks.')
+    }
+
     const libsql = createClient({
       url: normalizedUrl,
       authToken: authToken,
@@ -25,7 +31,7 @@ if (!globalThis.prisma) {
     const adapter = new PrismaLibSQL(libsql)
     globalThis.prisma = new PrismaClient({ adapter })
   } else {
-    console.log('[Prisma] Initializing with local SQLite')
+    console.log('[Nexus] Initializing Local Dev DB')
     globalThis.prisma = new PrismaClient()
   }
 }

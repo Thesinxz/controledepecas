@@ -3,10 +3,10 @@ import { prisma } from '../../utils/prisma'
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
-  if (!body.partName || !body.model || !body.fromStore || !body.toStore || !body.employeeName || !body.expectedReturn) {
+  if (!body.partName || !body.fromStore || !body.toStore || !body.employeeName || !body.expectedReturn) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Missing required fields',
+      statusMessage: 'Missing required fields (partName, fromStore, toStore, employeeName, expectedReturn)',
     })
   }
 
