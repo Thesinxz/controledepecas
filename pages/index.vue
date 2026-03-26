@@ -155,118 +155,86 @@
       </button>
     </div>
 
-    <!-- Loans List -->
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div v-if="pending" class="col-span-full flex flex-col items-center py-20 gap-4 text-gray-500">
+    <!-- Loans List: Nexus Strip Layout -->
+    <section class="flex flex-col gap-2">
+      <div v-if="pending" class="flex flex-col items-center py-20 gap-4 text-gray-500">
         <LucideLoader2 class="w-10 h-10 animate-spin text-blue-500" />
         <p class="font-medium animate-pulse tracking-widest uppercase text-xs">Sincronizando Banco de Dados...</p>
       </div>
 
-      <div v-else-if="filteredLoans.length === 0" class="col-span-full card bg-gray-900/20 border-gray-800/50 border-dashed text-center py-20">
+      <div v-else-if="filteredLoans.length === 0" class="card bg-gray-900/20 border-gray-800/50 border-dashed text-center py-20">
         <LucidePackage class="w-12 h-12 text-gray-700 mx-auto mb-4" />
         <p class="text-gray-500 font-medium">Nenhum empréstimo registrado nesta categoria.</p>
       </div>
 
       <div v-for="loan in filteredLoans" :key="loan.id" 
-        class="card group hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-500/40 transition-all relative overflow-hidden bg-gray-900/20 border-gray-800/60 p-6 flex flex-col" 
-        :class="{ 'opacity-40 grayscale scale-[0.98]': loan.returnDate }">
+        class="group bg-gray-900/40 border border-gray-800/80 hover:border-blue-500/30 rounded-2xl p-4 flex items-center gap-6 transition-all hover:bg-gray-900/60 shadow-sm"
+        :class="{ 'opacity-40 grayscale': loan.returnDate }">
         
-        <!-- Action Buttons Overlay -->
-        <div class="absolute top-4 right-4 flex gap-2 invisible group-hover:visible animate-in fade-in zoom-in duration-300 z-10">
-          <button @click="editLoan(loan)" class="p-2 bg-gray-950 border border-gray-800 hover:bg-blue-600 text-gray-500 hover:text-white rounded-lg transition-all">
-            <LucideEdit2 class="w-3.5 h-3.5" />
-          </button>
-          <button @click="deleteLoan(loan.id)" class="p-2 bg-gray-950 border border-gray-800 hover:bg-red-600 text-gray-500 hover:text-white rounded-lg transition-all">
-            <LucideTrash2 class="w-3.5 h-3.5" />
-          </button>
+        <!-- Part Name & ID -->
+        <div class="flex flex-col min-w-[180px] max-w-[250px]">
+           <h3 class="font-black text-sm text-white truncate leading-tight group-hover:text-blue-400 transition-colors">{{ loan.partName }}</h3>
+           <span class="text-[8px] font-black text-gray-600 uppercase tracking-widest mt-1">Ref: #{{ String(loan.id).padStart(4, '0') }}</span>
         </div>
 
-        <div class="flex items-center gap-4 mb-6">
-           <div class="flex items-center gap-1.5">
-             <div class="w-11 h-11 rounded-xl bg-gray-950 flex items-center justify-center overflow-hidden border border-blue-500/20 shadow-inner group-hover:border-blue-500 transition-all">
-               <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-full h-full object-cover" />
-               <LucideCpu v-else class="text-blue-500 w-5 h-5" />
-             </div>
-             <LucideArrowLeft class="w-3 h-3 text-gray-600" />
-             <div class="w-9 h-9 rounded-lg bg-gray-950 flex items-center justify-center overflow-hidden border border-gray-800 shadow-inner group-hover:border-gray-700 transition-colors">
-               <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-full h-full object-cover" />
-               <LucideBuilding2 v-else class="text-gray-700 w-4 h-4" />
-             </div>
-           </div>
-
-           <div class="flex-1 min-w-0">
-              <h3 class="text-base font-black tracking-tight text-white group-hover:text-blue-400 transition-colors truncate">{{ loan.partName }}</h3>
-              <div class="flex items-center gap-2 mt-1">
-                 <span :class="getStatusClass(loan)" class="text-[7px] font-black uppercase px-2 py-0.5 rounded-md tracking-[0.1em] border border-current bg-black/20">
-                    {{ getStatusLabel(loan) }}
-                 </span>
-                 <span class="text-[7px] font-black text-gray-600 uppercase tracking-widest">#{{ String(loan.id).padStart(4, '0') }}</span>
+        <!-- Flow Path (Logos removed as requested, now compact text flow) -->
+        <div class="flex-1 flex items-center gap-4 border-l border-gray-800/50 pl-6 min-w-0">
+           <div class="flex flex-col min-w-0">
+              <span class="text-[7px] text-gray-600 font-black uppercase tracking-tighter mb-1">Caminho Nexus</span>
+              <div class="flex items-center gap-2 text-[10px] font-black truncate">
+                 <span class="text-blue-400 truncate">{{ loan.toStore }}</span>
+                 <LucideArrowLeft class="w-3 h-3 text-gray-700 shrink-0" />
+                 <span class="text-gray-500 truncate">{{ loan.fromStore }}</span>
               </div>
            </div>
         </div>
 
-        <!-- Details List -->
-        <div class="space-y-3 flex-1">
-          <div class="flex items-center gap-3 text-sm">
-            <div :class="isFemale(loan.employeeName) ? 'bg-pink-600/10 text-pink-400 ring-pink-500/20' : 'bg-cyan-600/10 text-cyan-400 ring-cyan-500/20'" 
-              class="w-8 h-8 rounded-lg flex items-center justify-center transition-all shrink-0 border border-white/5 ring-1 shadow-md">
+        <!-- Responsible (Gendered) -->
+        <div class="flex items-center gap-3 min-w-[160px] border-l border-gray-800/50 pl-6">
+           <div :class="isFemale(loan.employeeName) ? 'text-pink-500 bg-pink-500/10' : 'text-cyan-500 bg-cyan-500/10'" 
+             class="w-8 h-8 rounded-lg flex items-center justify-center border border-white/5">
               <LucideUser v-if="!isFemale(loan.employeeName)" class="w-4 h-4" />
               <LucideUserCircle v-else class="w-4 h-4" />
-            </div>
-            <div class="flex flex-col">
-              <span class="text-[8px] text-gray-500 uppercase font-black tracking-widest leading-none mb-0.5">Responsável</span>
-              <span class="font-bold text-gray-200 text-sm leading-tight">{{ loan.employeeName }}</span>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3 text-sm">
-            <div class="w-8 h-8 rounded-lg bg-gray-950 flex items-center justify-center text-gray-600 border border-gray-800">
-              <LucideArrowLeftRight class="w-4 h-4" />
-            </div>
-            <div class="flex flex-col">
-              <span class="text-[8px] text-gray-500 uppercase font-black tracking-widest leading-none mb-0.5">Transferência Nexus</span>
-              <div class="flex items-center gap-2 font-black text-[10px] flex-wrap">
-                <div class="flex items-center gap-1.5 bg-blue-500/5 px-2 py-0.5 rounded border border-blue-500/10">
-                   <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-3 h-3 rounded-sm object-cover" />
-                   <span class="text-blue-400">{{ loan.toStore }}</span>
-                </div>
-                <span class="text-gray-700 font-normal text-[8px]">recebeu de</span>
-                <div class="flex items-center gap-1.5 bg-gray-500/5 px-2 py-0.5 rounded border border-gray-800">
-                   <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-3 h-3 rounded-sm object-cover" />
-                   <span class="text-gray-400">{{ loan.fromStore }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4 mt-6">
-            <div class="bg-gray-950/80 p-4 rounded-2xl border border-gray-800/50 hover:border-gray-700 transition-colors">
-               <div class="flex items-center gap-3 mb-2">
-                  <LucideCalendar class="w-3.5 h-3.5 text-gray-600" />
-                  <span class="text-[8px] text-gray-600 uppercase font-black tracking-widest">Início</span>
-               </div>
-               <span class="text-xs font-black text-gray-400 tracking-wider">{{ formatDate(loan.loanDate) }}</span>
-            </div>
-
-            <div class="bg-gray-950/80 p-4 rounded-2xl border transition-all" :class="getStatusLabel(loan) === 'Atrasado' ? 'border-red-500/30 bg-red-500/5' : 'border-gray-800/50'">
-               <div class="flex items-center gap-3 mb-2">
-                  <LucideTarget class="w-3.5 h-3.5 text-gray-600" />
-                  <span class="text-[8px] text-gray-600 uppercase font-black tracking-widest">Prazo Final</span>
-               </div>
-               <span class="text-xs font-black tracking-wider" :class="getStatusLabel(loan) === 'Atrasado' ? 'text-red-500' : 'text-emerald-500'">{{ formatDate(loan.expectedReturn) }}</span>
-            </div>
-          </div>
+           </div>
+           <div class="flex flex-col min-w-0">
+              <span class="text-[7px] text-gray-600 font-black uppercase mb-0.5">Técnico</span>
+              <span class="font-bold text-gray-300 text-xs truncate">{{ loan.employeeName }}</span>
+           </div>
         </div>
 
-        <div v-if="!loan.returnDate" class="mt-8">
-          <button @click="markAsReturned(loan.id)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98] uppercase text-[10px] tracking-[0.3em]">
-            <LucideCheckCircle class="w-5 h-5 shadow-lg" />
-            Log: Finalizar Movimentação
-          </button>
+        <!-- Timeline -->
+        <div class="hidden lg:flex items-center gap-8 border-l border-gray-800/50 pl-6">
+           <div class="flex flex-col">
+              <span class="text-[7px] text-gray-600 font-black uppercase mb-0.5">Retirada</span>
+              <span class="text-[10px] font-black text-gray-400">{{ formatDate(loan.loanDate) }}</span>
+           </div>
+           <div class="flex flex-col">
+              <span class="text-[7px] text-gray-600 font-black uppercase mb-0.5">{{ loan.returnDate ? 'Concluído' : 'Prazo Final' }}</span>
+              <span v-if="loan.returnDate" class="text-[10px] font-black text-emerald-500">{{ formatDate(loan.returnDate) }}</span>
+              <span v-else class="text-[10px] font-black" :class="getStatusLabel(loan) === 'Atrasado' ? 'text-red-500' : 'text-gray-400'">{{ formatDate(loan.expectedReturn) }}</span>
+           </div>
         </div>
-        <div v-else class="mt-8 py-4 bg-gray-950/50 rounded-2xl border border-emerald-500/30 text-center text-[9px] text-emerald-500 font-black uppercase tracking-[0.3em] flex items-center justify-center gap-2">
-          <LucideCheck class="w-4 h-4" />
-          Nexus Log: Arquivado em {{ formatDate(loan.returnDate) }}
+
+        <!-- Global Status -->
+        <div class="min-w-[100px] border-l border-gray-800/50 pl-6 flex justify-center">
+           <span :class="getStatusClass(loan)" class="text-[8px] font-black uppercase px-3 py-1 rounded-md border border-current bg-black/20 w-full text-center">
+             {{ getStatusLabel(loan) }}
+           </span>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-2 border-l border-gray-800/50 pl-6">
+           <button v-if="!loan.returnDate" @click="markAsReturned(loan.id)" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[9px] font-black uppercase transition-all shadow-lg shadow-blue-900/20 active:scale-95">
+             Entregar
+           </button>
+           <div class="flex gap-1">
+             <button @click="editLoan(loan)" class="p-2 text-gray-500 hover:text-blue-400 transition-colors hover:bg-gray-800 rounded-lg">
+               <LucideEdit2 class="w-3.5 h-3.5" />
+             </button>
+             <button @click="deleteLoan(loan.id)" class="p-2 text-gray-500 hover:text-red-400 transition-colors hover:bg-gray-800 rounded-lg">
+               <LucideTrash2 class="w-3.5 h-3.5" />
+             </button>
+           </div>
         </div>
       </div>
     </section>
