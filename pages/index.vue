@@ -171,9 +171,9 @@
         class="group bg-gray-900/40 border border-gray-800/80 hover:border-blue-500/30 rounded-2xl p-4 flex items-center gap-6 transition-all hover:bg-gray-900/60 shadow-sm"
         :class="{ 'opacity-40 grayscale': loan.returnDate }">
         
-        <!-- Part Name & ID -->
-        <div class="flex flex-col min-w-[180px] max-w-[250px]">
-           <h3 class="font-black text-sm text-white truncate leading-tight group-hover:text-blue-400 transition-colors">{{ loan.partName }}</h3>
+        <!-- Part Name & ID (Full name display) -->
+        <div class="flex flex-col min-w-[220px] max-w-[400px]">
+           <h3 class="font-black text-sm text-white leading-relaxed group-hover:text-blue-400 transition-colors break-words">{{ loan.partName }}</h3>
            <span class="text-[8px] font-black text-gray-600 uppercase tracking-widest mt-1">Ref: #{{ String(loan.id).padStart(4, '0') }}</span>
         </div>
 
