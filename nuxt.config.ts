@@ -63,7 +63,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     externals: {
-      include: ['@prisma/client']
+      include: ['@prisma/client', '@libsql/client', '@prisma/adapter-libsql']
     }
   }
 })
