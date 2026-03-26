@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md mx-auto px-4 py-6 md:max-w-2xl lg:max-w-4xl min-h-screen">
+  <div class="w-full max-w-[1800px] mx-auto px-6 py-8 min-h-screen">
     <!-- Header & Dashboard -->
     <header class="mb-10">
       <div class="flex items-center justify-between mb-10">
@@ -177,14 +177,24 @@
            <span class="text-[8px] font-black text-gray-600 uppercase tracking-widest mt-1">Ref: #{{ String(loan.id).padStart(4, '0') }}</span>
         </div>
 
-        <!-- Flow Path (Logos removed as requested, now compact text flow) -->
-        <div class="flex-1 flex items-center gap-4 border-l border-gray-800/50 pl-6 min-w-0">
-           <div class="flex flex-col min-w-0">
-              <span class="text-[7px] text-gray-600 font-black uppercase tracking-tighter mb-1">Caminho Nexus</span>
-              <div class="flex items-center gap-2 text-[10px] font-black truncate">
-                 <span class="text-blue-400 truncate">{{ loan.toStore }}</span>
-                 <LucideArrowLeft class="w-3 h-3 text-gray-700 shrink-0" />
-                 <span class="text-gray-500 truncate">{{ loan.fromStore }}</span>
+        <!-- Flow Path (Restored logos as requested) -->
+        <div class="flex-1 flex items-center gap-6 border-l border-gray-800/50 pl-6 min-w-0">
+           <div class="flex flex-col min-w-0 flex-1">
+              <span class="text-[7px] text-gray-600 font-black uppercase tracking-tighter mb-1.5">Caminho Nexus (Destino < Origem)</span>
+              <div class="flex items-center gap-3 text-[11px] font-black truncate">
+                 <!-- Destino -->
+                 <div class="flex items-center gap-2 bg-blue-500/5 px-2.5 py-1 rounded-lg border border-blue-500/10">
+                    <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-4 h-4 rounded shadow-sm" />
+                    <span class="text-blue-400 truncate">{{ loan.toStore }}</span>
+                 </div>
+                 
+                 <LucideArrowLeft class="w-3.5 h-3.5 text-gray-700 animate-pulse shrink-0" />
+                 
+                 <!-- Origem -->
+                 <div class="flex items-center gap-2 bg-gray-500/5 px-2.5 py-1 rounded-lg border border-gray-800">
+                    <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-4 h-4 rounded shadow-sm opacity-60" />
+                    <span class="text-gray-500 truncate">{{ loan.fromStore }}</span>
+                 </div>
               </div>
            </div>
         </div>
