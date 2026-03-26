@@ -424,8 +424,8 @@ const loans = computed(() => data.value?.loans || [])
 const stats = computed(() => data.value?.stats || { total: 0, pending: 0, overdue: 0, returned: 0 })
 
 const filteredEmployeesForForm = computed(() => {
-  if (!form.value.fromStore || isEditing.value) return employees.value || []
-  const store = stores.value?.find(s => s.name === form.value.fromStore)
+  if (!form.value.toStore || isEditing.value) return employees.value || []
+  const store = stores.value?.find(s => s.name === form.value.toStore)
   if (!store) return employees.value || []
   return (employees.value || []).filter(e => e.storeId === store.id)
 })
@@ -558,35 +558,38 @@ const getStoreNameById = (id) => {
   return stores.value?.find(s => s.id === id)?.name
 }
 
-// Watch employee selection to auto-fill store
+// Watch technician selection to auto-fill destination (since they pick up for their store)
 watch(() => form.value.employeeName, (newName) => {
-  if (isEditing.value) return // Don't auto-fill when editing
+  if (isEditing.value || !newName) return
   const emp = employees.value?.find(e => e.name === newName)
   if (emp?.storeId) {
     const storeName = getStoreNameById(emp.storeId)
     if (storeName) {
-      form.value.fromStore = storeName
+      form.value.toStore = storeName
     }
   }
 })
 
-// Watch store selection to clear employee AND set destination
-watch(() => form.value.fromStore, (newStoreName) => {
-  if (isEditing.value || !newStoreName) return
+// Watch source selection to auto-set destination if possible
+watch(() => form.value.fromStore, (newSource) => {
+  if (isEditing.value || !newSource) return
   
-  // Clear employee if invalid
-  const currentEmp = employees.value?.find(e => e.name === form.value.employeeName)
-  const store = stores.value?.find(s => s.name === newStoreName)
-  if (currentEmp && store && currentEmp.storeId !== store.id) {
-    form.value.employeeName = ''
-  }
-
-  // Auto-set destination if only 2 stores exist
+  // Auto-set destination if only 2 stores exist and it's not the source
   if (stores.value?.length === 2 && !form.value.toStore) {
-    const otherStore = stores.value.find(s => s.name !== newStoreName)
+    const otherStore = stores.value.find(s => s.name !== newSource)
     if (otherStore) {
       form.value.toStore = otherStore.name
     }
+  }
+})
+
+// Watch destination selection to clear technician if inconsistent
+watch(() => form.value.toStore, (newDest) => {
+  if (isEditing.value || !newDest) return
+  const currentEmp = employees.value?.find(e => e.name === form.value.employeeName)
+  const store = stores.value?.find(s => s.name === newDest)
+  if (currentEmp && store && currentEmp.storeId !== store.id) {
+    form.value.employeeName = ''
   }
 })
 
