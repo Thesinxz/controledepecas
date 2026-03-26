@@ -1,5 +1,6 @@
 import { createClient } from '@libsql/client'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import * as adapterPkg from '@prisma/adapter-libsql'
+const { PrismaLibSQL } = adapterPkg
 import { PrismaClient } from '@prisma/client'
 
 // Use a global variable to prevent multiple instances
