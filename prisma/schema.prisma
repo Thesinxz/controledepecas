@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Loan {
+  id              Int      @id @default(autoincrement())
+  partName        String
+  model           String
+  brand           String?  // New field: Marca
+  fromStore       String
+  toStore         String
+  employeeName    String
+  loanDate        DateTime @default(now())
+  expectedReturn  DateTime
+  returnDate      DateTime?
+}
+
+model Employee {
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  storeId Int?   // Optional store linkage
+}
+
+model Store {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  logo  String? // Base64 or Image path
+}
