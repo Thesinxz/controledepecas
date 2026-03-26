@@ -219,8 +219,10 @@
         <!-- Details List -->
         <div class="space-y-4 p-1">
           <div class="flex items-center gap-4 text-sm group/item">
-            <div class="w-10 h-10 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-500 group-hover/item:bg-blue-600 group-hover/item:text-white transition-all shrink-0 border border-blue-500/10">
-              <LucideUserCheck class="w-5 h-5" />
+            <div :class="isFemale(loan.employeeName) ? 'bg-pink-600/10 text-pink-500 hover:bg-pink-600' : 'bg-blue-600/10 text-blue-500 hover:bg-blue-600'" 
+              class="w-10 h-10 rounded-xl flex items-center justify-center transition-all shrink-0 border border-white/5">
+              <LucideUserCheck v-if="!isFemale(loan.employeeName)" class="w-5 h-5" />
+              <LucideUserCircle v-else class="w-5 h-5" />
             </div>
             <div class="flex flex-col">
               <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest leading-none mb-1">Responsável</span>
@@ -229,15 +231,15 @@
           </div>
 
           <div class="flex items-center gap-4 text-sm group/item">
-            <div class="w-10 h-10 rounded-xl bg-orange-600/10 flex items-center justify-center text-orange-500 group-hover/item:bg-orange-600 group-hover/item:text-white transition-all shrink-0 border border-orange-500/10">
-              <LucideShuffle class="w-5 h-5" />
+            <div class="w-10 h-10 rounded-xl bg-cyan-600/10 flex items-center justify-center text-cyan-500 group-hover/item:bg-cyan-600 group-hover/item:text-white transition-all shrink-0 border border-cyan-500/10">
+              <LucideArrowLeftRight class="w-5 h-5" />
             </div>
             <div class="flex flex-col">
-              <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest leading-none mb-1">Fluxo Nexus</span>
-              <div class="flex items-center gap-3 font-black text-gray-200">
-                <span class="text-gray-400">{{ loan.fromStore }}</span>
-                <LucideArrowRight class="w-4 h-4 text-gray-700 animate-pulse" />
+              <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest leading-none mb-1">Transferência Nexus</span>
+              <div class="flex items-center gap-3 font-black text-xs">
                 <span class="text-blue-400">{{ loan.toStore }}</span>
+                <span class="text-gray-700 font-normal">recebeu de</span>
+                <span class="text-gray-400">{{ loan.fromStore }}</span>
               </div>
             </div>
           </div>
@@ -611,6 +613,14 @@ watch(() => form.value.toStore, (newDest) => {
     form.value.employeeName = ''
   }
 })
+
+const isFemale = (name) => {
+  if (!name) return false
+  const n = name.toLowerCase().trim()
+  // Heuristic for Brazilian/Common names (ends with a, ia, na, e, i)
+  const endings = ['a', 'ia', 'na', 'ra', 'ta', 'ca', 'da', 'sa', 'va', 'e', 'i']
+  return endings.some(e => n.endsWith(e))
+}
 
 // Helpers
 const formatDate = (date) => {
