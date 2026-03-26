@@ -14,9 +14,11 @@ let prisma: PrismaClient
 
 if (!globalThis.prisma) {
   if (url) {
-    console.log('[Prisma] Initializing with LibSQL Adapter (v6 compliant)')
+    // Normalization for serverless environments (prefer https for fetch compatibility)
+    const normalizedUrl = url.replace('libsql://', 'https://')
+    console.log(`[Prisma] Initializing with Turso: ${normalizedUrl}`)
     const libsql = createClient({
-      url: url,
+      url: normalizedUrl,
       authToken: authToken,
     })
     const adapter = new PrismaLibSQL(libsql)
