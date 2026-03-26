@@ -147,7 +147,7 @@
 
     <!-- Navigation Tabs -->
     <div class="flex bg-gray-950/50 p-1.5 rounded-2xl border border-gray-800/50 mb-8 sticky top-4 z-40 backdrop-blur-md">
-      <button v-for="tab in ['pendentes', 'atrasados', 'devolvidos']" :key="tab" 
+      <button v-for="tab in ['todos', 'pendentes', 'atrasados', 'devolvidos']" :key="tab" 
         @click="activeTab = tab"
         class="flex-1 py-3.5 px-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
         :class="activeTab === tab ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:text-gray-300'">
@@ -383,17 +383,10 @@ import { ptBR } from 'date-fns/locale'
 const showForm = ref(false)
 const showSettings = ref(false)
 const search = ref('')
-const activeFilter = ref('all')
+const activeTab = ref('todos')
 const loading = ref(false)
 const isEditing = ref(false)
 const editingId = ref(null)
-
-const filterOptions = [
-  { label: 'Todos', value: 'all' },
-  { label: 'Pendentes', value: 'pending' },
-  { label: 'Atrasados', value: 'overdue' },
-  { label: 'Devolvidos', value: 'returned' }
-]
 
 const form = ref({
   partName: '',
@@ -407,7 +400,7 @@ const form = ref({
 const { data, pending, refresh } = await useFetch('/api/loans', {
   query: computed(() => ({
     search: search.value,
-    filter: activeFilter.value
+    tab: activeTab.value
   }))
 })
 
@@ -424,7 +417,32 @@ const filteredEmployeesForForm = computed(() => {
   return (employees.value || []).filter(e => e.storeId === store.id)
 })
 
-const filteredLoans = computed(() => loans.value)
+const filteredLoans = computed(() => {
+  if (!loans.value) return []
+  let list = [...loans.value]
+  
+  if (activeTab.value !== 'todos') {
+    list = list.filter(loan => {
+      const label = getStatusLabel(loan).toLowerCase()
+      if (activeTab.value === 'pendentes') return label === 'pendente'
+      if (activeTab.value === 'atrasados') return label === 'atrasado'
+      if (activeTab.value === 'devolvidos') return label === 'devolvido'
+      return true
+    })
+  }
+
+  if (search.value) {
+    const s = search.value.toLowerCase()
+    list = list.filter(l => 
+      l.partName.toLowerCase().includes(s) || 
+      l.employeeName.toLowerCase().includes(s) ||
+      l.toStore.toLowerCase().includes(s) ||
+      l.fromStore.toLowerCase().includes(s)
+    )
+  }
+
+  return list
+})
 
 const toggleForm = () => {
   if (showForm.value && isEditing.value) {
