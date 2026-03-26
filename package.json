@@ -10,8 +10,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.2",
-    "@prisma/adapter-libsql": "^7.5.0",
+    "@libsql/client": "^0.8.0",
+    "@prisma/adapter-libsql": "^6.4.1",
     "@prisma/client": "^6.4.1",
     "date-fns": "^4.1.0",
     "lucide-vue-next": "^1.0.0",

@@ -14,7 +14,7 @@ let prisma: PrismaClient
 
 if (!globalThis.prisma) {
   if (url) {
-    console.log('[Prisma] Initializing with LibSQL Adapter')
+    console.log('[Prisma] Initializing with LibSQL Adapter (v6 compliant)')
     const libsql = createClient({
       url: url,
       authToken: authToken,
