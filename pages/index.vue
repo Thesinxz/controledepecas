@@ -147,11 +147,11 @@
 
     <!-- Navigation Tabs -->
     <div class="flex bg-gray-950/50 p-1.5 rounded-2xl border border-gray-800/50 mb-8 sticky top-4 z-40 backdrop-blur-md">
-      <button v-for="tab in ['todos', 'pendentes', 'atrasados', 'devolvidos']" :key="tab" 
+      <button v-for="tab in ['ativos', 'todos', 'finalizados']" :key="tab" 
         @click="activeTab = tab"
         class="flex-1 py-3.5 px-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
         :class="activeTab === tab ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:text-gray-300'">
-        {{ tab }}
+        {{ tab === 'ativos' ? 'Ações Necessárias' : (tab === 'todos' ? 'Histórico Geral' : 'Finalizados') }}
       </button>
     </div>
 
@@ -177,23 +177,32 @@
            <span class="text-[8px] font-black text-gray-600 uppercase tracking-widest mt-1">Ref: #{{ String(loan.id).padStart(4, '0') }}</span>
         </div>
 
-        <!-- Flow Path (Restored logos as requested) -->
+        <!-- Flow Path (Improved Flow Direction) -->
         <div class="flex-1 flex items-center gap-6 border-l border-gray-800/50 pl-6 min-w-0">
            <div class="flex flex-col min-w-0 flex-1">
-              <span class="text-[7px] text-gray-600 font-black uppercase tracking-tighter mb-1.5">Caminho Nexus (Destino < Origem)</span>
+              <span class="text-[7px] text-gray-600 font-black uppercase tracking-tighter mb-1.5">Fluxo de Movimentação (Saída → Destino)</span>
               <div class="flex items-center gap-3 text-[11px] font-black truncate">
-                 <!-- Destino -->
-                 <div class="flex items-center gap-2 bg-blue-500/5 px-2.5 py-1 rounded-lg border border-blue-500/10">
-                    <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-4 h-4 rounded shadow-sm" />
-                    <span class="text-blue-400 truncate">{{ loan.toStore }}</span>
+                 <!-- Origem -->
+                 <div class="flex items-center gap-2 bg-gray-500/10 px-2.5 py-1 rounded-lg border border-gray-800/50 group-hover:border-gray-700 transition-colors">
+                    <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-4 h-4 rounded shadow-sm opacity-60 grayscale group-hover:grayscale-0 transition-all" />
+                    <div class="flex flex-col leading-none">
+                      <span class="text-[6px] text-gray-600 uppercase font-black mb-0.5">Origem</span>
+                      <span class="text-gray-500 truncate">{{ loan.fromStore }}</span>
+                    </div>
                  </div>
                  
-                 <LucideArrowLeft class="w-3.5 h-3.5 text-gray-700 animate-pulse shrink-0" />
+                 <div class="flex items-center justify-center px-1">
+                    <LucideZap class="w-3.5 h-3.5 text-blue-500/40 animate-pulse shrink-0" />
+                    <LucideMoveRight class="w-4 h-4 text-blue-500 animate-[bounce-x_2s_infinite] -mx-0.5 shrink-0" />
+                 </div>
                  
-                 <!-- Origem -->
-                 <div class="flex items-center gap-2 bg-gray-500/5 px-2.5 py-1 rounded-lg border border-gray-800">
-                    <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-4 h-4 rounded shadow-sm opacity-60" />
-                    <span class="text-gray-500 truncate">{{ loan.fromStore }}</span>
+                 <!-- Destino -->
+                 <div class="flex items-center gap-2 bg-blue-500/10 px-2.5 py-1 rounded-lg border border-blue-500/20 group-hover:border-blue-500/40 transition-colors shadow-[0_0_15px_rgba(59,130,246,0.1)]">
+                    <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-4 h-4 rounded shadow-sm" />
+                    <div class="flex flex-col leading-none">
+                      <span class="text-[6px] text-blue-500 uppercase font-black mb-0.5">Destino</span>
+                      <span class="text-blue-200 truncate">{{ loan.toStore }}</span>
+                    </div>
                  </div>
               </div>
            </div>
@@ -383,7 +392,7 @@ import { ptBR } from 'date-fns/locale'
 const showForm = ref(false)
 const showSettings = ref(false)
 const search = ref('')
-const activeTab = ref('todos')
+const activeTab = ref('ativos')
 const loading = ref(false)
 const isEditing = ref(false)
 const editingId = ref(null)
@@ -407,6 +416,18 @@ const { data, pending, refresh } = await useFetch('/api/loans', {
 const { data: employees, refresh: refreshEmployees } = await useFetch('/api/employees')
 const { data: stores, refresh: refreshStores } = await useFetch('/api/stores')
 
+// Real-time synchronization
+let refreshInterval = null
+onMounted(() => {
+  refreshInterval = setInterval(async () => {
+    await Promise.all([refresh(), refreshEmployees(), refreshStores()])
+  }, 30000) // 30 seconds
+})
+
+onUnmounted(() => {
+  if (refreshInterval) clearInterval(refreshInterval)
+})
+
 const loans = computed(() => data.value?.loans || [])
 const stats = computed(() => data.value?.stats || { total: 0, pending: 0, overdue: 0, returned: 0 })
 
@@ -424,9 +445,8 @@ const filteredLoans = computed(() => {
   if (activeTab.value !== 'todos') {
     list = list.filter(loan => {
       const label = getStatusLabel(loan).toLowerCase()
-      if (activeTab.value === 'pendentes') return label === 'pendente'
-      if (activeTab.value === 'atrasados') return label === 'atrasado'
-      if (activeTab.value === 'devolvidos') return label === 'devolvido'
+      if (activeTab.value === 'ativos') return label === 'em aberto' || label === 'atrasado'
+      if (activeTab.value === 'finalizados') return label === 'finalizado'
       return true
     })
   }
@@ -624,11 +644,11 @@ const formatDate = (date) => {
 }
 
 const getStatusLabel = (loan) => {
-  if (loan.returnDate) return 'Devolvido'
+  if (loan.returnDate) return 'Finalizado'
   const today = new Date()
   const expected = parseISO(loan.expectedReturn)
   if (isAfter(today, expected)) return 'Atrasado'
-  return 'Pendente'
+  return 'Em Aberto'
 }
 
 const getStatusClass = (loan) => {
@@ -660,7 +680,41 @@ const getStatusClass = (loan) => {
   }
 }
 
+@keyframes bounce-x {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
 .animate-in {
   animation-fill-mode: both;
+}
+
+.badge-pending {
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.badge-overdue {
+  color: #ef4444;
+  border-color: rgba(14, 68, 68, 0.3);
+  background-color: rgba(239, 68, 68, 0.05);
+  animation: pulse-red 2s infinite;
+}
+
+.badge-returned {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+  background-color: rgba(16, 185, 129, 0.05);
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 </style>
