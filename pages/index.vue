@@ -426,9 +426,56 @@ const { data, pending, refresh } = await useFetch('/api/loans', {
 const { data: employees, refresh: refreshEmployees } = await useFetch('/api/employees')
 const { data: stores, refresh: refreshStores } = await useFetch('/api/stores')
 
+// PWA Push Subscription logic
+const urlBase64ToUint8Array = (base64String) => {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4)
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/')
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i)
+  }
+  return outputArray
+}
+
+const subscribeToPush = async () => {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
+
+  try {
+    const registration = await navigator.serviceWorker.ready
+    const existingSub = await registration.pushManager.getSubscription()
+    if (existingSub) return // Already subscribed
+
+    // Ask for permission explicitly if not granted
+    if (Notification.permission === 'default') {
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') return
+    }
+
+    if (Notification.permission === 'granted') {
+      const { publicKey } = await $fetch('/api/push/vapid-public-key')
+      if (!publicKey) return
+
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicKey)
+      })
+
+      await $fetch('/api/push/subscribe', {
+        method: 'POST',
+        body: subscription
+      })
+    }
+  } catch (err) {
+    console.error('Push subscription failed:', err)
+  }
+}
+
 // Real-time synchronization
 let refreshInterval = null
 onMounted(() => {
+  subscribeToPush()
+  
   refreshInterval = setInterval(async () => {
     await Promise.all([refresh(), refreshEmployees(), refreshStores()])
   }, 30000) // 30 seconds
