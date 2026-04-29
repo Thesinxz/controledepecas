@@ -392,7 +392,9 @@ import {
   LucideSearch, LucideUser, LucideUserCircle, LucideCalendar, LucideStore, 
   LucideArrowRight, LucideCheckCircle, LucideLoader2, LucideCheck,
   LucideEdit2, LucideTrash2, LucideSettings, LucideImage, LucideBuilding2,
-  LucideClock, LucideAlertCircle, LucideHistory, LucideAlertTriangle
+  LucideClock, LucideAlertCircle, LucideHistory, LucideAlertTriangle,
+  LucideRepeat, LucideCpu, LucideWarehouse, LucideSend, LucideUserCheck, 
+  LucideCalendarClock, LucideTerminal
 } from 'lucide-vue-next'
 import { format, isAfter, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
