@@ -5,8 +5,8 @@
       <div class="flex items-center justify-between mb-10">
         <div class="flex flex-col">
           <h1 class="text-3xl font-black flex items-center gap-3">
-            <div class="bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-2xl shadow-lg shadow-blue-500/20 overflow-hidden flex items-center justify-center p-0.5 w-10 h-10">
-              <img src="/icon_192x192.png" alt="Logo" class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <div class="bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-2xl shadow-lg shadow-blue-500/20 overflow-hidden flex items-center justify-center p-0.5 shrink-0 w-12 h-12 min-w-[3rem] min-h-[3rem]">
+              <img src="/icon_192x192.png" alt="Logo" class="w-full h-full object-cover rounded-xl shrink-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
               <LucidePackage class="text-white w-6 h-6 hidden" />
             </div>
             <span class="tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Controle de Peças</span>
