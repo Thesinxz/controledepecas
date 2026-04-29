@@ -173,14 +173,14 @@
           :class="[
             loan.returnDate ? 'opacity-50 grayscale' : '',
             isLojinha(loan.toStore)
-              ? 'bg-gradient-to-br from-amber-900/30 via-gray-900/80 to-gray-950 border-amber-500/40 hover:border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.1)]'
+              ? 'bg-gradient-to-br from-yellow-900/30 via-gray-900/80 to-gray-950 border-yellow-500/40 hover:border-yellow-400 shadow-[0_0_20px_rgba(234,179,8,0.1)]'
               : 'bg-gradient-to-br from-blue-900/30 via-gray-900/80 to-gray-950 border-blue-500/40 hover:border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.1)]',
             getStatusLabel(loan) === 'Atrasado' ? 'overdue-pulse ring-2 ring-red-500/50' : ''
           ]">
           
           <!-- Indicator Glow (Always Store Color) -->
           <div class="absolute inset-x-0 top-0 h-1.5 transition-colors"
-               :class="isLojinha(loan.toStore) ? 'bg-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.8)]' : 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)]'"></div>
+               :class="isLojinha(loan.toStore) ? 'bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.8)]' : 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)]'"></div>
 
           <!-- Header: Status & Ref -->
           <div class="flex justify-between items-start mt-1.5">
@@ -194,7 +194,7 @@
           <div class="flex items-start gap-1.5 mt-1 min-h-[36px]">
             <LucideAlertTriangle v-if="getStatusLabel(loan) === 'Atrasado'" class="w-4 h-4 text-red-500 animate-[bounce_1s_infinite] shrink-0 mt-0.5" />
             <h3 class="font-black text-xs text-white leading-tight break-words line-clamp-2"
-                :class="isLojinha(loan.toStore) ? 'group-hover:text-amber-400' : 'group-hover:text-blue-400'">
+                :class="isLojinha(loan.toStore) ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'">
               {{ loan.partName }}
             </h3>
           </div>
@@ -209,7 +209,7 @@
              
              <LucideArrowRight class="w-3 h-3 text-gray-600 shrink-0 mx-0.5" />
              
-             <div class="flex items-center gap-1.5 min-w-0" :class="isLojinha(loan.toStore) ? 'text-amber-300' : 'text-blue-300'">
+             <div class="flex items-center gap-1.5 min-w-0" :class="isLojinha(loan.toStore) ? 'text-yellow-300' : 'text-blue-300'">
                 <span class="text-[8px] font-black uppercase tracking-wide truncate max-w-[70px]" :title="loan.toStore">{{ loan.toStore }}</span>
                 <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-4 h-4 rounded-md shadow-sm shrink-0" />
                 <LucideBuilding2 v-else class="w-3.5 h-3.5 shrink-0" />
