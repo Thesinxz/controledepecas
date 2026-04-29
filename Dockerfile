@@ -3,8 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copia os arquivos de configuração do npm
+# Copia os arquivos de configuração do npm e do banco
 COPY package*.json ./
+COPY prisma ./prisma
 
 # Instala todas as dependências (incluindo devDependencies necessárias para o build)
 RUN npm ci
