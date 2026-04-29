@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client'
 const PrismaLibSQL = (LibSQLAdapter as any).PrismaLibSQL || (LibSQLAdapter as any).default?.PrismaLibSQL
 
 declare global {
-  var prisma: PrismaClient | undefined
+  var globalPrisma: PrismaClient | undefined
 }
 
 const url = process.env.TURSO_DATABASE_URL
@@ -14,7 +14,7 @@ const authToken = process.env.TURSO_AUTH_TOKEN
 
 let prisma: PrismaClient
 
-if (!globalThis.prisma) {
+if (!globalThis.globalPrisma) {
   try {
     if (url) {
       // Normalize URL for LibSQL client compatibility
@@ -33,20 +33,19 @@ if (!globalThis.prisma) {
       })
 
       const adapter = new PrismaLibSQL(client)
-      globalThis.prisma = new PrismaClient({ adapter })
+      globalThis.globalPrisma = new PrismaClient({ adapter })
       console.log('[Nexus-Core] Bridge Established Successfully')
     } else {
       console.log('[Nexus-Core] Dev Mode: SQLite Instance')
-      globalThis.prisma = new PrismaClient()
+      globalThis.globalPrisma = new PrismaClient()
     }
   } catch (err: any) {
     console.error('[Nexus-Core] FAILED to establish DB Bridge:', err.message)
     console.error(err.stack)
-    // We let the error throw to cause a 500 but with detailed logs in Vercel
     throw err
   }
 }
 
-prisma = globalThis.prisma!
+prisma = globalThis.globalPrisma!
 
 export { prisma }

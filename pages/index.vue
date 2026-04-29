@@ -5,12 +5,12 @@
       <div class="flex items-center justify-between mb-10">
         <div class="flex flex-col">
           <h1 class="text-3xl font-black flex items-center gap-3">
-            <div class="p-2 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-2xl shadow-lg shadow-blue-500/20">
-              <LucideZap class="text-white w-6 h-6" />
+            <div class="bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-2xl shadow-lg shadow-blue-500/20 overflow-hidden flex items-center justify-center p-0.5 w-10 h-10">
+              <img src="/icon_192x192.png" alt="Logo" class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+              <LucidePackage class="text-white w-6 h-6 hidden" />
             </div>
-            <span class="tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">NEXUS PARTS</span>
+            <span class="tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Controle de Peças</span>
           </h1>
-          <span class="text-[10px] font-black text-blue-500/60 uppercase tracking-[0.2em] ml-12 -mt-1">Core Intelligence</span>
         </div>
         <div class="flex gap-3">
           <button @click="showSettings = true" class="p-3.5 bg-gray-950 border border-gray-800/50 rounded-2xl hover:bg-gray-900 transition-all text-gray-500 hover:text-blue-400 shadow-xl group">
@@ -24,126 +24,126 @@
       </div>
 
       <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
-        <div class="card p-5 bg-gray-950/50 border-gray-800/50 hover:border-blue-500/20 transition-all group">
-          <div class="flex items-center justify-between mb-4">
-             <div class="p-2 bg-blue-500/10 rounded-xl text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+        <div class="card p-3 bg-gradient-to-br from-blue-500/5 to-gray-950/50 border-gray-800/50 hover:border-blue-500/20 transition-all flex items-center justify-between group">
+           <div class="flex items-center gap-3">
+             <div class="p-2 bg-blue-500/10 rounded-lg text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
                 <LucideRepeat class="w-4 h-4" />
              </div>
-             <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest">Movimentações</span>
-          </div>
-          <div class="flex items-baseline gap-1">
-            <span class="text-4xl font-black text-white">{{ stats.total }}</span>
-          </div>
+             <span class="text-[9px] text-gray-500 uppercase font-black tracking-widest hidden xl:block">Movimentações</span>
+           </div>
+           <span class="text-2xl font-black text-white">{{ stats.total }}</span>
         </div>
 
-        <div class="card p-5 bg-gray-950/50 border-gray-800/50 hover:border-yellow-500/20 transition-all group">
-          <div class="flex items-center justify-between mb-4">
-             <div class="p-2 bg-yellow-500/10 rounded-xl text-yellow-500 group-hover:bg-yellow-500 group-hover:text-black transition-colors">
+        <div class="card p-3 bg-gradient-to-br from-yellow-500/5 to-gray-950/50 border-gray-800/50 hover:border-yellow-500/20 transition-all flex items-center justify-between group">
+           <div class="flex items-center gap-3">
+             <div class="p-2 bg-yellow-500/10 rounded-lg text-yellow-500 group-hover:bg-yellow-500 group-hover:text-black transition-colors">
                 <LucideClock class="w-4 h-4" />
              </div>
-             <span class="text-[9px] text-yellow-500/50 uppercase font-black tracking-widest">Pendentes</span>
-          </div>
-          <span class="text-4xl font-black text-yellow-500">{{ stats.pending }}</span>
+             <span class="text-[9px] text-yellow-500/50 uppercase font-black tracking-widest hidden xl:block">Pendentes</span>
+           </div>
+           <span class="text-2xl font-black text-yellow-500">{{ stats.pending }}</span>
         </div>
 
-        <div class="card p-5 bg-gray-950/50 border-gray-800/50 hover:border-red-500/20 transition-all group">
-          <div class="flex items-center justify-between mb-4">
-             <div class="p-2 bg-red-500/10 rounded-xl text-red-500 group-hover:bg-red-500 group-hover:text-white transition-colors">
+        <div class="card p-3 bg-gradient-to-br from-red-500/5 to-gray-950/50 border-gray-800/50 hover:border-red-500/20 transition-all flex items-center justify-between group">
+           <div class="flex items-center gap-3">
+             <div class="p-2 bg-red-500/10 rounded-lg text-red-500 group-hover:bg-red-500 group-hover:text-white transition-colors">
                 <LucideAlertCircle class="w-4 h-4" />
              </div>
-             <span class="text-[9px] text-red-500/50 uppercase font-black tracking-widest">Atrasadas</span>
-          </div>
-          <span class="text-4xl font-black text-red-500">{{ stats.overdue }}</span>
+             <span class="text-[9px] text-red-500/50 uppercase font-black tracking-widest hidden xl:block">Atrasadas</span>
+           </div>
+           <span class="text-2xl font-black text-red-500">{{ stats.overdue }}</span>
         </div>
 
-        <div class="card p-5 bg-gray-950/50 border-gray-800/50 hover:border-emerald-500/20 transition-all group">
-          <div class="flex items-center justify-between mb-4">
-             <div class="p-2 bg-emerald-500/10 rounded-xl text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+        <div class="card p-3 bg-gradient-to-br from-emerald-500/5 to-gray-950/50 border-gray-800/50 hover:border-emerald-500/20 transition-all flex items-center justify-between group">
+           <div class="flex items-center gap-3">
+             <div class="p-2 bg-emerald-500/10 rounded-lg text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
                 <LucideCheckCircle class="w-4 h-4" />
              </div>
-             <span class="text-[9px] text-emerald-500/50 uppercase font-black tracking-widest">Finalizadas</span>
-          </div>
-          <span class="text-4xl font-black text-emerald-500">{{ stats.returned }}</span>
+             <span class="text-[9px] text-emerald-500/50 uppercase font-black tracking-widest hidden xl:block">Finalizadas</span>
+           </div>
+           <span class="text-2xl font-black text-emerald-500">{{ stats.returned }}</span>
         </div>
       </div>
     </header>
 
     <!-- Form Section -->
-    <section v-if="showForm" class="mb-12 space-y-4 animate-in slide-in-from-top duration-500">
-      <div class="card bg-gray-900/40 backdrop-blur-xl border-blue-500/20 ring-1 ring-blue-500/10 p-8 shadow-2xl">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-2xl font-black flex items-center gap-4 text-white">
-            <div :class="isEditing ? 'bg-blue-500 shadow-blue-500/50' : 'bg-cyan-500 shadow-cyan-500/50'" class="w-2.5 h-2.5 rounded-full animate-pulse shadow-lg"></div>
-            {{ isEditing ? 'Ajustar Cadastro' : 'Nova Movimentação' }}
-          </h2>
-          <span class="text-[10px] font-black text-gray-500 uppercase tracking-widest italic">Operational Flow</span>
-        </div>
-        <form @submit.prevent="registerLoan" class="space-y-8">
-          <div class="space-y-6">
-            <div class="space-y-3">
-              <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Descrição Técnica da Peça</label>
-              <div class="relative group">
-                <input v-model="form.partName" type="text" placeholder="Ex: Módulo Display Original iPhone 13 Pro" class="input py-5 text-lg pl-14 bg-gray-950/80 border-gray-800 focus:border-blue-500/50 transition-all" required />
-                <LucideCpu class="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-blue-500 transition-colors w-5 h-5" />
+    <!-- Form Modal (Refactored to Overlay) -->
+    <div v-if="showForm" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-950/90 backdrop-blur-xl animate-in fade-in duration-300">
+      <div class="bg-gray-900/90 border border-blue-500/20 rounded-[2.5rem] w-full max-w-3xl max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden ring-1 ring-white/5 animate-in slide-in-from-bottom-8 duration-500 relative">
+        <button @click="resetForm" class="absolute top-6 right-6 p-2 bg-gray-800/50 hover:bg-gray-700 text-gray-400 hover:text-white rounded-full transition-colors z-10">
+          <LucideX class="w-5 h-5" />
+        </button>
+        <div class="p-8 overflow-y-auto">
+          <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-black flex items-center gap-4 text-white">
+              <div :class="isEditing ? 'bg-blue-500 shadow-blue-500/50' : 'bg-cyan-500 shadow-cyan-500/50'" class="w-2.5 h-2.5 rounded-full animate-pulse shadow-lg"></div>
+              {{ isEditing ? 'Ajustar Cadastro' : 'Nova Movimentação' }}
+            </h2>
+          </div>
+          <form @submit.prevent="registerLoan" class="space-y-8">
+            <div class="space-y-6">
+              <div class="space-y-3">
+                <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Descrição Técnica da Peça</label>
+                <div class="relative group">
+                  <input v-model="form.partName" type="text" placeholder="Ex: Módulo Display Original iPhone 13 Pro" class="input py-5 text-lg pl-14 bg-gray-950/80 border-gray-800 focus:border-blue-500/50 transition-all" required />
+                  <LucideCpu class="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-blue-500 transition-colors w-5 h-5" />
+                </div>
               </div>
-            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="space-y-3">
-                <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Loja de Origem</label>
-                <div class="relative">
-                  <select v-model="form.fromStore" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800 appearance-none" required>
-                    <option value="" disabled>Selecione a origem</option>
-                    <option v-for="s in stores" :key="s.id" :value="s.name">{{ s.name }}</option>
-                    <option v-if="!stores?.length" value="Unidade Alpha">Unidade Alpha (Padrão)</option>
-                  </select>
-                  <LucideWarehouse class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                  <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Loja de Origem</label>
+                  <div class="relative">
+                    <select v-model="form.fromStore" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800 appearance-none" required>
+                      <option value="" disabled>Selecione a origem</option>
+                      <option v-for="s in stores" :key="s.id" :value="s.name">{{ s.name }}</option>
+                      <option v-if="!stores?.length" value="Unidade Alpha">Unidade Alpha (Padrão)</option>
+                    </select>
+                    <LucideWarehouse class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+                  </div>
                 </div>
-              </div>
-              <div class="space-y-3">
-                <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Loja de Destino</label>
-                <div class="relative">
-                  <select v-model="form.toStore" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800 appearance-none" required>
-                    <option value="" disabled>Selecione o destino</option>
-                    <option v-for="s in stores" :key="s.id" :value="s.name">{{ s.name }}</option>
-                    <option v-if="!stores?.length" value="Unidade Beta">Unidade Beta</option>
-                  </select>
-                  <LucideSend class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+                <div class="space-y-3">
+                  <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Loja de Destino</label>
+                  <div class="relative">
+                    <select v-model="form.toStore" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800 appearance-none" required>
+                      <option value="" disabled>Selecione o destino</option>
+                      <option v-for="s in stores" :key="s.id" :value="s.name">{{ s.name }}</option>
+                      <option v-if="!stores?.length" value="Unidade Beta">Unidade Beta</option>
+                    </select>
+                    <LucideSend class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+                  </div>
                 </div>
-              </div>
-              <div class="space-y-3">
-                <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Técnico Responsável</label>
-                <div class="relative">
-                  <select v-model="form.employeeName" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800 appearance-none" required>
-                    <option value="" disabled>Quem realizou a retirada?</option>
-                    <option v-for="e in filteredEmployeesForForm" :key="e.id" :value="e.name">{{ e.name }}</option>
-                    <option v-if="!employees?.length" value="Técnico Nível 1">Técnico Nível 1</option>
-                  </select>
-                  <LucideUserCheck class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+                <div class="space-y-3">
+                  <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Técnico Responsável</label>
+                  <div class="relative">
+                    <select v-model="form.employeeName" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800 appearance-none" required>
+                      <option value="" disabled>Quem realizou a retirada?</option>
+                      <option v-for="e in filteredEmployeesForForm" :key="e.id" :value="e.name">{{ e.name }}</option>
+                      <option v-if="!employees?.length" value="Técnico Nível 1">Técnico Nível 1</option>
+                    </select>
+                    <LucideUserCheck class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+                  </div>
                 </div>
-              </div>
-              <div class="space-y-3">
-                <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Data Limite de Retorno</label>
-                <div class="relative">
-                  <input v-model="form.expectedReturn" type="date" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800" required />
-                  <LucideCalendarClock class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+                <div class="space-y-3">
+                  <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">Data Limite de Retorno</label>
+                  <div class="relative">
+                    <input v-model="form.expectedReturn" type="date" class="input py-4 h-14 pl-12 bg-gray-950/80 border-gray-800" required />
+                    <LucideCalendarClock class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5 pointer-events-none" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="flex gap-4">
-            <button v-if="isEditing" type="button" @click="resetForm" class="flex-1 bg-gray-950 text-gray-400 font-black py-4 rounded-2xl hover:bg-gray-900 border border-gray-800 transition-all uppercase text-xs tracking-widest">
-              Interromper
-            </button>
-            <button type="submit" class="flex-[3] bg-blue-600 text-white font-black py-4 rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30 flex items-center justify-center gap-3 uppercase text-xs tracking-[0.2em]" :disabled="loading">
-              <LucideLoader2 v-if="loading" class="w-5 h-5 animate-spin" />
-              <LucideTerminal v-else class="w-5 h-5" />
-              {{ isEditing ? 'Confirmar Ajuste' : 'Executar Registro' }}
-            </button>
-          </div>
-        </form>
+            <div class="flex gap-4 pt-4">
+              <button type="submit" class="flex-1 bg-blue-600 text-white font-black py-4 rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30 flex items-center justify-center gap-3 uppercase text-xs tracking-[0.2em]" :disabled="loading">
+                <LucideLoader2 v-if="loading" class="w-5 h-5 animate-spin" />
+                <LucideTerminal v-else class="w-5 h-5" />
+                {{ isEditing ? 'Confirmar Ajuste' : 'Executar Registro' }}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </section>
+    </div>
 
     <!-- Navigation Tabs -->
     <div class="flex bg-gray-950/50 p-1.5 rounded-2xl border border-gray-800/50 mb-8 sticky top-4 z-40 backdrop-blur-md">
@@ -155,102 +155,108 @@
       </button>
     </div>
 
-    <!-- Loans List: Nexus Strip Layout -->
-    <section class="flex flex-col gap-2">
-      <div v-if="pending" class="flex flex-col items-center py-20 gap-4 text-gray-500">
+    <!-- Loans Grid: Desktop Bento Box Layout -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
+      <div v-if="pending" class="col-span-full flex flex-col items-center py-20 gap-4 text-gray-500">
         <LucideLoader2 class="w-10 h-10 animate-spin text-blue-500" />
         <p class="font-medium animate-pulse tracking-widest uppercase text-xs">Sincronizando Banco de Dados...</p>
       </div>
 
-      <div v-else-if="filteredLoans.length === 0" class="card bg-gray-900/20 border-gray-800/50 border-dashed text-center py-20">
+      <div v-else-if="filteredLoans.length === 0" class="col-span-full card bg-gray-900/20 border-gray-800/50 border-dashed text-center py-20">
         <LucidePackage class="w-12 h-12 text-gray-700 mx-auto mb-4" />
         <p class="text-gray-500 font-medium">Nenhum empréstimo registrado nesta categoria.</p>
       </div>
 
       <div v-for="loan in filteredLoans" :key="loan.id" 
-        class="group bg-gray-900/40 border border-gray-800/80 hover:border-blue-500/30 rounded-2xl p-4 flex items-center gap-6 transition-all hover:bg-gray-900/60 shadow-sm"
-        :class="{ 'opacity-40 grayscale': loan.returnDate }">
+        class="group border rounded-[1.5rem] p-4 flex flex-col gap-3 relative overflow-hidden transition-all shadow-xl hover:shadow-2xl"
+        :class="[
+          loan.returnDate ? 'opacity-50 grayscale' : '',
+          isLojinha(loan.toStore)
+            ? 'bg-gradient-to-br from-amber-900/30 via-gray-900/80 to-gray-950 border-amber-500/40 hover:border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.1)]'
+            : 'bg-gradient-to-br from-blue-900/30 via-gray-900/80 to-gray-950 border-blue-500/40 hover:border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.1)]',
+          getStatusLabel(loan) === 'Atrasado' ? 'overdue-pulse ring-2 ring-red-500/50' : ''
+        ]">
         
-        <!-- Part Name & ID (Full name display) -->
-        <div class="flex flex-col min-w-[220px] max-w-[400px]">
-           <h3 class="font-black text-sm text-white leading-relaxed group-hover:text-blue-400 transition-colors break-words">{{ loan.partName }}</h3>
-           <span class="text-[8px] font-black text-gray-600 uppercase tracking-widest mt-1">Ref: #{{ String(loan.id).padStart(4, '0') }}</span>
+        <!-- Indicator Glow (Always Store Color) -->
+        <div class="absolute inset-x-0 top-0 h-1.5 transition-colors"
+             :class="isLojinha(loan.toStore) ? 'bg-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.8)]' : 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)]'"></div>
+
+        <!-- Header: Status & Ref -->
+        <div class="flex justify-between items-start mt-1.5">
+           <span :class="getStatusClass(loan)" class="text-[8px] font-black uppercase px-2 py-1 rounded-md border border-current bg-black/40 tracking-widest shadow-inner">
+             {{ getStatusLabel(loan) }}
+           </span>
+           <span class="text-[9px] font-black text-gray-600 uppercase tracking-widest bg-gray-900/50 px-1.5 py-0.5 rounded-md">#{{ String(loan.id).padStart(4, '0') }}</span>
         </div>
 
-        <!-- Flow Path (Improved Flow Direction) -->
-        <div class="flex-1 flex items-center gap-6 border-l border-gray-800/50 pl-6 min-w-0">
-           <div class="flex flex-col min-w-0 flex-1">
-              <span class="text-[7px] text-gray-600 font-black uppercase tracking-tighter mb-1.5">Fluxo de Movimentação (Saída → Destino)</span>
-              <div class="flex items-center gap-3 text-[11px] font-black truncate">
-                 <!-- Origem -->
-                 <div class="flex items-center gap-2 bg-gray-500/10 px-2.5 py-1 rounded-lg border border-gray-800/50 group-hover:border-gray-700 transition-colors">
-                    <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-4 h-4 rounded shadow-sm opacity-60 grayscale group-hover:grayscale-0 transition-all" />
-                    <div class="flex flex-col leading-none">
-                      <span class="text-[6px] text-gray-600 uppercase font-black mb-0.5">Origem</span>
-                      <span class="text-gray-500 truncate">{{ loan.fromStore }}</span>
-                    </div>
-                 </div>
-                 
-                 <div class="flex items-center justify-center px-1">
-                    <LucideZap class="w-3.5 h-3.5 text-blue-500/40 animate-pulse shrink-0" />
-                    <LucideMoveRight class="w-4 h-4 text-blue-500 animate-[bounce-x_2s_infinite] -mx-0.5 shrink-0" />
-                 </div>
-                 
-                 <!-- Destino -->
-                 <div class="flex items-center gap-2 bg-blue-500/10 px-2.5 py-1 rounded-lg border border-blue-500/20 group-hover:border-blue-500/40 transition-colors shadow-[0_0_15px_rgba(59,130,246,0.1)]">
-                    <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-4 h-4 rounded shadow-sm" />
-                    <div class="flex flex-col leading-none">
-                      <span class="text-[6px] text-blue-500 uppercase font-black mb-0.5">Destino</span>
-                      <span class="text-blue-200 truncate">{{ loan.toStore }}</span>
-                    </div>
-                 </div>
+        <!-- Part Name -->
+        <div class="flex items-start gap-1.5 mt-1 min-h-[36px]">
+          <LucideAlertTriangle v-if="getStatusLabel(loan) === 'Atrasado'" class="w-4 h-4 text-red-500 animate-[bounce_1s_infinite] shrink-0 mt-0.5" />
+          <h3 class="font-black text-xs text-white leading-tight break-words line-clamp-2"
+              :class="isLojinha(loan.toStore) ? 'group-hover:text-amber-400' : 'group-hover:text-blue-400'">
+            {{ loan.partName }}
+          </h3>
+        </div>
+
+        <!-- Flow (Origem -> Destino) -->
+        <div class="flex items-center justify-between bg-black/30 rounded-xl p-2 border border-white/5 mt-0">
+           <div class="flex items-center gap-1.5 min-w-0">
+              <img v-if="getStoreLogo(loan.fromStore)" :src="getStoreLogo(loan.fromStore)" class="w-4 h-4 rounded-md shadow-sm grayscale opacity-70 shrink-0" />
+              <LucideStore v-else class="w-3.5 h-3.5 text-gray-500 shrink-0" />
+              <span class="text-[8px] font-bold text-gray-400 truncate max-w-[60px]" :title="loan.fromStore">{{ loan.fromStore }}</span>
+           </div>
+           
+           <LucideArrowRight class="w-3 h-3 text-gray-600 shrink-0 mx-0.5" />
+           
+           <div class="flex items-center gap-1.5 min-w-0" :class="isLojinha(loan.toStore) ? 'text-amber-300' : 'text-blue-300'">
+              <span class="text-[8px] font-black uppercase tracking-wide truncate max-w-[70px]" :title="loan.toStore">{{ loan.toStore }}</span>
+              <img v-if="getStoreLogo(loan.toStore)" :src="getStoreLogo(loan.toStore)" class="w-4 h-4 rounded-md shadow-sm shrink-0" />
+              <LucideBuilding2 v-else class="w-3.5 h-3.5 shrink-0" />
+           </div>
+        </div>
+
+        <!-- Tech & Dates -->
+        <div class="grid grid-cols-2 gap-2 mt-0">
+           <!-- Tech -->
+           <div class="flex flex-col justify-center gap-0.5 bg-gray-900/50 rounded-xl p-2 border border-white/5">
+             <span class="text-[7px] font-black text-gray-500 uppercase tracking-widest">Técnico</span>
+             <div class="flex items-center gap-1.5">
+               <div :class="isFemale(loan.employeeName) ? 'text-pink-500 bg-pink-500/10' : 'text-cyan-500 bg-cyan-500/10'" 
+                 class="w-5 h-5 rounded-full flex items-center justify-center shrink-0">
+                  <LucideUser v-if="!isFemale(loan.employeeName)" class="w-3 h-3" />
+                  <LucideUserCircle v-else class="w-3 h-3" />
+               </div>
+               <span class="font-bold text-gray-300 text-[9px] uppercase tracking-wide truncate">{{ loan.employeeName }}</span>
+             </div>
+           </div>
+           <!-- Dates -->
+           <div class="flex flex-col justify-center gap-1 bg-gray-900/50 rounded-xl p-2 border border-white/5">
+              <div class="flex items-center gap-1 text-gray-500">
+                 <LucideCalendar class="w-3 h-3 shrink-0" />
+                 <span class="text-[8px] font-black">{{ formatDate(loan.loanDate) }}</span>
+              </div>
+              <div class="flex items-center gap-1" :class="loan.returnDate ? 'text-emerald-500' : (getStatusLabel(loan) === 'Atrasado' ? 'text-red-500' : 'text-gray-400')">
+                 <LucideClock class="w-3 h-3 shrink-0" />
+                 <span class="text-[8px] font-black">{{ formatDate(loan.returnDate || loan.expectedReturn) }}</span>
               </div>
            </div>
         </div>
 
-        <!-- Responsible (Gendered) -->
-        <div class="flex items-center gap-3 min-w-[160px] border-l border-gray-800/50 pl-6">
-           <div :class="isFemale(loan.employeeName) ? 'text-pink-500 bg-pink-500/10' : 'text-cyan-500 bg-cyan-500/10'" 
-             class="w-8 h-8 rounded-lg flex items-center justify-center border border-white/5">
-              <LucideUser v-if="!isFemale(loan.employeeName)" class="w-4 h-4" />
-              <LucideUserCircle v-else class="w-4 h-4" />
-           </div>
-           <div class="flex flex-col min-w-0">
-              <span class="text-[7px] text-gray-600 font-black uppercase mb-0.5">Técnico</span>
-              <span class="font-bold text-gray-300 text-xs truncate">{{ loan.employeeName }}</span>
-           </div>
-        </div>
-
-        <!-- Timeline -->
-        <div class="hidden lg:flex items-center gap-8 border-l border-gray-800/50 pl-6">
-           <div class="flex flex-col">
-              <span class="text-[7px] text-gray-600 font-black uppercase mb-0.5">Retirada</span>
-              <span class="text-[10px] font-black text-gray-400">{{ formatDate(loan.loanDate) }}</span>
-           </div>
-           <div class="flex flex-col">
-              <span class="text-[7px] text-gray-600 font-black uppercase mb-0.5">{{ loan.returnDate ? 'Concluído' : 'Prazo Final' }}</span>
-              <span v-if="loan.returnDate" class="text-[10px] font-black text-emerald-500">{{ formatDate(loan.returnDate) }}</span>
-              <span v-else class="text-[10px] font-black" :class="getStatusLabel(loan) === 'Atrasado' ? 'text-red-500' : 'text-gray-400'">{{ formatDate(loan.expectedReturn) }}</span>
-           </div>
-        </div>
-
-        <!-- Global Status -->
-        <div class="min-w-[100px] border-l border-gray-800/50 pl-6 flex justify-center">
-           <span :class="getStatusClass(loan)" class="text-[8px] font-black uppercase px-3 py-1 rounded-md border border-current bg-black/20 w-full text-center">
-             {{ getStatusLabel(loan) }}
-           </span>
-        </div>
-
         <!-- Actions -->
-        <div class="flex items-center gap-2 border-l border-gray-800/50 pl-6">
-           <button v-if="!loan.returnDate" @click="markAsReturned(loan.id)" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[9px] font-black uppercase transition-all shadow-lg shadow-blue-900/20 active:scale-95">
+        <div class="mt-auto pt-3 flex items-center gap-1.5 border-t border-gray-800/50">
+           <button v-if="!loan.returnDate" @click="markAsReturned(loan.id)" class="flex-1 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-[9px] font-black uppercase transition-all shadow-lg shadow-blue-900/30 active:scale-95">
              Entregar
            </button>
-           <div class="flex gap-1">
-             <button @click="editLoan(loan)" class="p-2 text-gray-500 hover:text-blue-400 transition-colors hover:bg-gray-800 rounded-lg">
+           <button v-else @click="undoReturn(loan.id)" class="flex-1 py-2 bg-yellow-600/20 hover:bg-yellow-500/30 text-yellow-500 border border-yellow-500/30 rounded-xl text-[9px] font-black uppercase transition-all shadow-lg active:scale-95">
+             Desfazer
+           </button>
+           
+           <div class="flex gap-0.5 bg-white/5 border border-white/5 rounded-xl p-0.5 backdrop-blur-sm shrink-0">
+             <button @click="editLoan(loan)" class="p-1.5 text-gray-400 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-colors">
                <LucideEdit2 class="w-3.5 h-3.5" />
              </button>
-             <button @click="deleteLoan(loan.id)" class="p-2 text-gray-500 hover:text-red-400 transition-colors hover:bg-gray-800 rounded-lg">
+             <div class="w-px h-4 bg-white/10 mx-0.5 self-center"></div>
+             <button @click="deleteLoan(loan.id)" class="p-1.5 text-gray-400 hover:text-red-400 hover:bg-white/10 rounded-lg transition-colors">
                <LucideTrash2 class="w-3.5 h-3.5" />
              </button>
            </div>
@@ -381,10 +387,10 @@
 <script setup>
 import { 
   LucidePackage, LucidePlus, LucideX, LucidePlusCircle, 
-  LucideSearch, LucideUser, LucideCalendar, LucideStore, 
+  LucideSearch, LucideUser, LucideUserCircle, LucideCalendar, LucideStore, 
   LucideArrowRight, LucideCheckCircle, LucideLoader2, LucideCheck,
   LucideEdit2, LucideTrash2, LucideSettings, LucideImage, LucideBuilding2,
-  LucideClock, LucideAlertCircle, LucideHistory
+  LucideClock, LucideAlertCircle, LucideHistory, LucideAlertTriangle
 } from 'lucide-vue-next'
 import { format, isAfter, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -544,6 +550,16 @@ const markAsReturned = async (id) => {
   }
 }
 
+const undoReturn = async (id) => {
+  if (!confirm('Deseja desfazer a entrega desta movimentação?')) return
+  try {
+    await $fetch(`/api/loans/${id}/unreturn`, { method: 'PATCH' })
+    await refresh()
+  } catch (err) {
+    alert('Erro ao desfazer status')
+  }
+}
+
 // Stores & Employees Management
 const newEmployee = ref({ name: '', storeId: '' })
 const newStore = ref({ name: '', logo: '' })
@@ -638,6 +654,11 @@ const isFemale = (name) => {
 }
 
 // Helpers
+const isLojinha = (name) => {
+  if (!name) return false
+  return name.toLowerCase().includes('lojinha')
+}
+
 const formatDate = (date) => {
   if (!date) return ''
   return format(parseISO(date.toString()), 'dd/MM/yyyy', { locale: ptBR })
@@ -716,5 +737,14 @@ const getStatusClass = (loan) => {
   0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
   70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
   100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@keyframes overdue-pulse {
+  0%, 100% { border-color: rgba(239, 68, 68, 0.2); box-shadow: 0 0 10px rgba(239, 68, 68, 0.05); }
+  50% { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 0 20px rgba(239, 68, 68, 0.1), inset 0 0 10px rgba(239, 68, 68, 0.02); }
+}
+
+.overdue-pulse {
+  animation: overdue-pulse 2s ease-in-out infinite;
 }
 </style>

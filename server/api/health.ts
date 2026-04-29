@@ -1,5 +1,5 @@
 import { createClient } from '@libsql/client'
-import pkg from '@prisma/adapter-libsql'
+import * as pkg from '@prisma/adapter-libsql'
 import { prisma } from '../utils/prisma'
 
 export default defineEventHandler(async (event) => {

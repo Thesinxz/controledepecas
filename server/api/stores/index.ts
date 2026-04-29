@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     console.error('[API Stores Error]:', err)
     throw createError({
       statusCode: 500,
-      statusMessage: `Database Error: ${err.message}`,
+      statusMessage: `Database Error: ${err instanceof Error ? err.message : String(err)}`,
     })
   }
 })
