@@ -27,26 +27,34 @@ export default defineEventHandler(async (event) => {
     where.returnDate = { not: null }
   }
 
-  const [loans, stats] = await Promise.all([
-    prisma.loan.findMany({
-      where,
-      orderBy: { loanDate: 'desc' },
-    }),
-    prisma.$transaction([
-      prisma.loan.count(), // Total
-      prisma.loan.count({ where: { returnDate: null, expectedReturn: { gte: today } } }), // Pending
-      prisma.loan.count({ where: { returnDate: null, expectedReturn: { lt: today } } }), // Overdue
-      prisma.loan.count({ where: { returnDate: { not: null } } }), // Returned
+  try {
+    const [loans, stats] = await Promise.all([
+      prisma.loan.findMany({
+        where,
+        orderBy: { loanDate: 'desc' },
+      }),
+      prisma.$transaction([
+        prisma.loan.count(), // Total
+        prisma.loan.count({ where: { returnDate: null, expectedReturn: { gte: today } } }), // Pending
+        prisma.loan.count({ where: { returnDate: null, expectedReturn: { lt: today } } }), // Overdue
+        prisma.loan.count({ where: { returnDate: { not: null } } }), // Returned
+      ])
     ])
-  ])
 
-  return {
-    loans,
-    stats: {
-      total: stats[0],
-      pending: stats[1],
-      overdue: stats[2],
-      returned: stats[3],
+    return {
+      loans,
+      stats: {
+        total: stats[0],
+        pending: stats[1],
+        overdue: stats[2],
+        returned: stats[3],
+      }
+    }
+  } catch (err: any) {
+    return {
+      error: true,
+      message: err.message,
+      stack: err.stack
     }
   }
 })
