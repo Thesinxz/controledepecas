@@ -379,7 +379,7 @@
         </div>
         
         <div class="p-4 bg-gray-950/50 border-t border-gray-800 text-center">
-           <span class="text-[8px] font-black text-gray-700 uppercase tracking-[0.4em]">Nexus Parts v2.0 // Core Intelligence</span>
+           <span class="text-[8px] font-black text-gray-700 uppercase tracking-[0.4em]">Controle de Peças // Dashboard Oficial</span>
         </div>
       </div>
     </div>
