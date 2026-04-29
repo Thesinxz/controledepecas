@@ -38,5 +38,3 @@ export const getPrisma = (): PrismaClient => {
 export const prisma = new Proxy({} as PrismaClient, {
   get: (_, prop) => getPrisma()[prop as keyof PrismaClient]
 })
-
-export { prisma }
